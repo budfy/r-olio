@@ -3,12 +3,15 @@
 @@include('components/_head.html')
 
 <body>
-  @@include('components/_header.html')
-  <!-- WRITE CODE HERE -->
-
-  <!-- STOP WRITE CODE -->
-  @@include('components/_footer.html')
-  @@include('components/_scripts.html')
+	@@include('components/_header.html')
+	<!-- WRITE CODE HERE -->
+	<main>
+		<button class="item__btn item__remove-btn" type="button" data-product="oilSalat" id="oilSalatMinus">-</button>
+		<button class="item__btn item__add-btn" type="button" data-product="oilSalat" id="oilSalatPlus">+</button>
+	</main>
+	<!-- STOP WRITE CODE -->
+	@@include('components/_footer.html')
+	@@include('components/_scripts.html')
 </body>
 
 </html>

@@ -7,6 +7,21 @@
 //                                                    START CODE
 //
 //-----------------------------------------------------------------------------------------------------------
+.item {
+  max-width: 400px;
+  padding: 30px;
+  margin: 0 auto;
+
+  &__ingr,
+  &__price {
+    margin: 16px 0;
+  }
+
+  &__picture {
+    width: 100%;
+    object-fit: contain;
+  }
+}
 
 
 

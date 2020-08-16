@@ -15,9 +15,9 @@ let gulp = require("gulp"),
 	imagemin = require("gulp-imagemin"), //пережимает изображения
 	recompress = require("imagemin-jpeg-recompress"), //тоже пережимает, но лучше. Плагин для плагина
 	pngquant = require("imagemin-pngquant"),
-	webp = require('gulp-webp'),
-	webphtml = require('gulp-webp-html'),
-	webpcss = require("gulp-webpcss"),
+	//webp = require('gulp-webp'),
+	//webphtml = require('gulp-webp-html'),
+	//webpcss = require("gulp-webpcss"),
 	uglify = require("gulp-uglify"), //то же, что cssmin, только для js
 	concat = require("gulp-concat"), //склеивает css и js-файлы в один
 	del = require("del"), //удаляет указанные файлы и директории. Нужен для очистки перед билдом
@@ -79,7 +79,7 @@ gulp.task("scss", function () {
 				},
 			}),
 		)
-		.pipe(webpcss())
+		//.pipe(webpcss())
 		.pipe(sourcemaps.write()) //записываем карту в итоговый файл
 		.pipe(gulp.dest("build/css")) //кладём итоговый файл в директорию build/css
 		.pipe(
@@ -125,13 +125,13 @@ gulp.task("minjs", function () {
 	return gulp
 		.src("src/js/*.js")
 		.pipe(size())
-		.pipe(babel())
-		.pipe(uglify())
-		.pipe(
-			rename({
-				suffix: ".min",
-			}),
-		)
+		//.pipe(babel())
+		//.pipe(uglify())
+		// .pipe(
+		// 	rename({
+		// 		suffix: ".min",
+		// 	}),
+		// )
 		.pipe(gulp.dest("build/js"))
 		.pipe(size());
 });
@@ -156,7 +156,7 @@ gulp.task("html", function () {
 				basepath: "@file",
 			}),
 		)
-		.pipe(webphtml())
+		//.pipe(webphtml())
 		.pipe(gulp.dest("build/"))
 		.pipe(size())
 		.pipe(
@@ -261,22 +261,22 @@ gulp.task("images", function () {
 		.pipe(size());
 });
 
-gulp.task("webp", function () {
-	return gulp
-		.src("src/images/**/*.+(png|jpg|jpeg|gif|svg|ico|webp)")
-		.pipe(size())
-		.pipe(webp({
-			quality: 75,
-			method: 6,
-		}))
-		.pipe(gulp.dest("build/images"))
-		.pipe(
-			browserSync.reload({
-				stream: true,
-			}),
-		)
-		.pipe(size())
-});
+// gulp.task("webp", function () {
+// 	return gulp
+// 		.src("src/images/**/*.+(png|jpg|jpeg|gif|svg|ico|webp)")
+// 		.pipe(size())
+// 		.pipe(webp({
+// 			quality: 75,
+// 			method: 6,
+// 		}))
+// 		.pipe(gulp.dest("build/images"))
+// 		.pipe(
+// 			browserSync.reload({
+// 				stream: true,
+// 			}),
+// 		)
+// 		.pipe(size())
+// });
 
 gulp.task("deletefonts", function () {
 	//задачи для очистки директории со шрифтами в build. Нужна для того, чтобы удалить лишнее.
@@ -288,6 +288,25 @@ gulp.task("deleteimg", function () {
 	return del.sync("build/img/**/*.*");
 });
 
+gulp.task("jSon", function () {
+	return gulp
+		.src("src/js/json/**/*.*")
+		.pipe(size())
+		.pipe(gulp.dest("build/js/json/"))
+		.pipe(
+			browserSync.reload({
+				stream: true,
+			}),
+		)
+		.pipe(size())
+});
+
+gulp.task("cleanjSon", function () {
+	//аналогично предыдущей, но с картинками.
+	return del.sync("build/js/json/")
+});
+
+
 gulp.task("watch", function () {
 	//Следим за изменениями в файлах и директориях и запускаем задачи, если эти изменения произошли
 	gulp.watch("src/scss/**/*.scss", gulp.parallel("scss"));
@@ -297,7 +316,8 @@ gulp.task("watch", function () {
 		gulp.parallel("font-woff", "font-woff2", "font-eot"),
 	);
 	gulp.watch("src/js/**/*.js", gulp.parallel("minjs", "js"));
-	gulp.watch("src/images/**/*.*", gulp.parallel("images", "webp"));
+	gulp.watch("src/images/**/*.*", gulp.parallel("images"));
+	gulp.watch("src/js/json/**/*.*", gulp.parallel("jSon"));
 });
 
 gulp.task("deploy", function () {
@@ -342,6 +362,7 @@ gulp.task(
 		"script",
 		"minjs",
 		"html",
+		"jSon",
 		"font-woff",
 		"font-eot",
 		"font-woff2",
