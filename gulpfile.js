@@ -306,6 +306,24 @@ gulp.task("cleanjSon", function () {
 	return del.sync("build/js/json/")
 });
 
+gulp.task("php", function () {
+	return gulp
+		.src("src/**/*.php")
+		.pipe(
+			include({
+				prefix: "@@",
+				basepath: "@file",
+			}),
+		)
+		.pipe(gulp.dest("build/"))
+		.pipe(
+			browserSync.reload({
+				stream: true,
+			})
+		)
+		.pipe(size())
+});
+
 
 gulp.task("watch", function () {
 	//Следим за изменениями в файлах и директориях и запускаем задачи, если эти изменения произошли
@@ -318,6 +336,7 @@ gulp.task("watch", function () {
 	gulp.watch("src/js/**/*.js", gulp.parallel("minjs", "js"));
 	gulp.watch("src/images/**/*.*", gulp.parallel("images"));
 	gulp.watch("src/js/json/**/*.*", gulp.parallel("jSon"));
+	gulp.watch("src/**/*.php", gulp.parallel("php"));
 });
 
 gulp.task("deploy", function () {
@@ -340,16 +359,18 @@ gulp.task("deploy", function () {
 });
 
 gulp.task("browser-sync", function () {
-	//настройки лайв-сервера
+	// browserSync.init({
+	// 	server: {
+	// 		baseDir: "build/",
+	// 	},
+	// 	browser: [""],
+	// 	host: "192.168.0.104",
+	// });
+
 	browserSync.init({
-		server: {
-			baseDir: "build/", //какую папку показывать в браузере
-		},
-		browser: [""], //в каком браузере
-		//tunnel: " ", //тут можно прописать название проекта и дать доступ к нему через интернет. Работает нестабильно, запускается через раз. Не рекомендуется включать без необходимости.
-		//tunnel:true, //работает, как и предыдущяя опция, но присваивает рандомное имя. Тоже запускается через раз и поэтому не рекомендуется для включения
-		host: "192.168.0.104", //IP сервера в локальной сети. Отключите, если у вас DHCP, пропишите под себя, если фиксированный IP в локалке.
-	});
+		proxy: "r-olio",
+		notify: true
+	})
 });
 
 gulp.task(
@@ -367,5 +388,6 @@ gulp.task(
 		"font-eot",
 		"font-woff2",
 		"images",
+		"php"
 	),
 ); //запускает все перечисленные задачи разом

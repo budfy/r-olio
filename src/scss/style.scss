@@ -2,25 +2,40 @@
 @import 'fonts';
 @import 'global';
 
-//-----------------------------------------------------------------------------------------------------------
-//
-//                                                    START CODE
-//
-//-----------------------------------------------------------------------------------------------------------
+// STYLES-SECTION: components styles
+@import 'nav';
+// !STYLES-SECTION: components styles
+
+
+
+.header {}
+
+.grid-wrapper {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-gap: 1rem;
+}
+
 .item {
-  max-width: 400px;
-  padding: 30px;
-  margin: 0 auto;
+	max-width: 25rem;
+	padding: 1.5rem;
+	margin: 0 auto;
+	box-shadow: .5rem .5rem 1rem #00000080;
+	border-radius: 1rem;
+	flex-direction: column;
+	justify-content: space-between;
 
-  &__ingr,
-  &__price {
-    margin: 16px 0;
-  }
+	&__ingr,
+	&__price {
+		margin: 1rem 0;
+	}
 
-  &__picture {
-    width: 100%;
-    object-fit: contain;
-  }
+	&__picture {
+		width: 100%;
+		object-fit: contain;
+		flex: 0 0 12.5rem;
+		height: 12.5rem;
+	}
 }
 
 

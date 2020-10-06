@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-@@include('components/_head.html')
+<?php include 'components/_head.php' ?>
+
 
 <body>
-	@@include('components/_header.html')
+	<?php include 'components/_header.php' ?>
+	
 	<!-- WRITE CODE HERE -->
 	<main>
 		<button class="item__btn item__remove-btn" type="button" data-product="oilSalat" id="oilSalatMinus">-</button>
 		<button class="item__btn item__add-btn" type="button" data-product="oilSalat" id="oilSalatPlus">+</button>
+		<div class="grid-wrapper --js-insert-here">
+
+		</div>
 	</main>
 	<!-- STOP WRITE CODE -->
-	@@include('components/_footer.html')
-	@@include('components/_scripts.html')
+	<?php include 'components/_footer.php';
+	include 'components/_scripts.php'
+	?>
+	
+	
 </body>
 
 </html>

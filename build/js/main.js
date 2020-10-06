@@ -14,16 +14,17 @@ function getProducts() {
 };
 
 function createHtmlItem(elem, elemName) {
-	document.body.insertAdjacentHTML("beforeend",
-		'<div class="item">' +
-		'<h2 class="item__title">' + elem.name + ' - </h2>' +
-		'<p class="item__descr">' + elem.descr + '</p>' +
-		'<p class="item__ingr"><strong>Состав:</strong> ' + elem.ingr + '</p>' +
-		'<img class="item__picture" src="images/' + elem.picture + '" alt="Масло ' + elem.name + '">' +
-		'<p class="item__price">Цена:<strong>' + elem.price + 'грн.</strong></p>' +
-		`<button class="item__btn item__remove-btn" type="button" data-product="${elemName}" id="${elemName}Minus">-</button>` +
-		`<button class="item__btn item__add-btn" type="button" data-product="${elemName}" id="${elemName}Plus">+</button>` +
-		'</div>');
+	document.querySelector(".--js-insert-here").insertAdjacentHTML("beforeend",
+		`<div class="item --${elemName} flex">
+		<h2 class="item__title">${elem.name}</h2>
+		<p class="item__descr">${elem.descr}</p>
+		<p class="item__ingr"><strong>Состав:</strong>${elem.ingr}</p>
+		<img class="item__picture" src="images/${elem.picture}" alt="Масло '${elem.name}">
+		<p class="item__price">Цена:<strong>${elem.price}грн.</strong></p>
+		<p class="item__summ">Сумма: <strong>0</strong><b> грн.</b></p>
+		<button class="item__btn item__remove-btn" type="button" data-product="${elemName}" id="${elemName}Minus">-</button>
+		<button class="item__btn item__add-btn" type="button" data-product="${elemName}" id="${elemName}Plus">+</button>
+		</div>`);
 };
 
 let prodData = new Promise(
@@ -53,18 +54,25 @@ class CartItem {
 		this.itemRemove = function () {
 			this.itemCount--;
 		}
-		//FIXME: мутод нихера не работает. Данные не забирает и выдаёт андифайнед.
-		this.itemSumm = function () {
-			this.itemPrice * this.itemCount;
+		this.itemGetSumm = function () {
+			this.itemSumm = this.itemPrice * this.itemCount;
 		};
-		//!FIXME
+		this.itemSumm = this.itemGetSumm();
 	}
 };
 
 
 const order = {
 	orderItems: {},
-	// orderSumm: getSumm(),
+	getSumm: function () {
+		// let summ = 0;
+		// for (const itemSumm of this.orderItems[itemSumm]) {
+		// 	summ += itemSumm;
+		// }
+		// return summ;
+		console.log(this);
+	},
+	orderSumm: order.getSumm(),
 	// orderAddress: getAddress(),
 	// orderName: getName()
 }
@@ -83,9 +91,12 @@ $plus.forEach.call($plus, function (el) {
 		} else {
 			prod = new CartItem(oil[productId], oil[productId].name, 1, oil[productId].price);
 			order.orderItems[productId] = prod;
-			order.orderItems[productId].itemSumm();
+			order.orderItems[productId].itemGetSumm();
+			el.parentNode.querySelector(".item__remove-btn").removeAttribute('disabled');
 		}
-		order.orderItems[productId].itemSumm();
+		order.orderItems[productId].itemGetSumm();
+		document.querySelector(`.--${productId} .item__summ strong`).textContent = order.orderItems[productId].itemSumm;
+		console.table(order.orderItems)
 	});
 });
 //!FIXME
@@ -95,9 +106,15 @@ $minus.forEach.call($minus, function (el) {
 		productId = el.dataset.product;
 		if (order.orderItems[productId].itemCount > 1) {
 			order.orderItems[productId].itemRemove();
+			document.querySelector(`.--${productId} .item__summ strong`).textContent = order.orderItems[productId].itemSumm;
 		} else {
 			delete order.orderItems[productId];
+			document.querySelector(`.--${productId} .item__summ strong`).textContent = 0;
+			el.setAttribute('disabled', 'disabled');
 		}
-		order.orderItems[productId].itemSumm();
+		order.orderItems[productId].itemGetSumm();
+		console.table(order.orderItems)
 	});
 });
+
+// const sendOrder = new XMLHttpRequest();
