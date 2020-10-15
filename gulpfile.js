@@ -26,7 +26,13 @@ let gulp = require("gulp"),
 	ttf2eot = require("gulp-ttf2eot"), //конвертирует шрифты в веб-формат
 	size = require("gulp-filesize"), //выводит в консоль размер файлов до и после их сжатия, чем создаёт чувство глубокого морального удовлетворения, особенно при минификации картинок
 	rsync = require("gulp-rsync"), //заливает файлы проекта на хостинг по ftp с заданными параметрами
-	sourcemaps = require("gulp-sourcemaps"); //рисует карту слитого воедино файла, чтобы было понятно, что из какого файла бралось
+	sourcemaps = require("gulp-sourcemaps"), //рисует карту слитого воедино файла, чтобы было понятно, что из какого файла бралось
+	svgmin = require("gulp-svgmin"),
+	svgcss = require("gulp-svg-css"),
+	ver = require("gulp-file-version");
+const {
+	proxy
+} = require("jquery");
 
 gulp.task("scss", function () {
 	//делаем из своего scss-кода css для браузера
@@ -81,6 +87,10 @@ gulp.task("scss", function () {
 		)
 		//.pipe(webpcss())
 		.pipe(sourcemaps.write()) //записываем карту в итоговый файл
+		.pipe(ver(/templateUrl:["']{1}([\w./-]*)["']{1}/g, {
+			base: "./",
+			Hash: "md5"
+		}))
 		.pipe(gulp.dest("build/css")) //кладём итоговый файл в директорию build/css
 		.pipe(
 			browserSync.reload({
@@ -98,9 +108,15 @@ gulp.task("style", function () {
 		.src([
 			//указываем, где брать исходники
 			"node_modules/normalize.css/normalize.css",
+			"node_modules/swiper/swiper-bundle.min.css",
+			"node_modules/aos/dist/aos.css"
 		])
 		.pipe(concat("libs.min.css")) //склеиваем их в один файл с указанным именем
 		.pipe(cssmin()) //минифицируем полученный файл
+		.pipe(ver(/templateUrl:["']{1}([\w./-]*)["']{1}/g, {
+			base: "./",
+			Hash: "md5"
+		}))
 		.pipe(gulp.dest("build/css")) //кидаем готовый файл в директорию
 		.pipe(size());
 });
@@ -110,12 +126,18 @@ gulp.task("script", function () {
 	return gulp
 		.src([
 			//тут подключаем разные js в общую библиотеку. Отключите то, что вам не нужно.
-			"node_modules/jquery/dist/jquery.js"
+			"node_modules/jquery/dist/jquery.js",
+			"node_modules/swiper/swiper-bundle.min.js",
+			"node_modules/aos/dist/aos.js"
 		])
 		.pipe(size())
 		.pipe(babel())
 		.pipe(concat("libs.min.js"))
 		.pipe(uglify())
+		.pipe(ver(/templateUrl:["']{1}([\w./-]*)["']{1}/g, {
+			base: "./",
+			Hash: "md5"
+		}))
 		.pipe(gulp.dest("build/js"))
 		.pipe(size());
 });
@@ -132,6 +154,10 @@ gulp.task("minjs", function () {
 		// 		suffix: ".min",
 		// 	}),
 		// )
+		.pipe(ver(/templateUrl:["']{1}([\w./-]*)["']{1}/g, {
+			base: "./",
+			Hash: "md5"
+		}))
 		.pipe(gulp.dest("build/js"))
 		.pipe(size());
 });
@@ -157,6 +183,10 @@ gulp.task("html", function () {
 			}),
 		)
 		//.pipe(webphtml())
+		.pipe(ver(/templateUrl:["']{1}([\w./-]*)["']{1}/g, {
+			base: "./",
+			Hash: "md5"
+		}))
 		.pipe(gulp.dest("build/"))
 		.pipe(size())
 		.pipe(
@@ -261,6 +291,25 @@ gulp.task("images", function () {
 		.pipe(size());
 });
 
+gulp.task('svg', function () {
+	return gulp
+		.src('src/images/svg/**/*.svg')
+		.pipe(svgmin())
+		.pipe(svgcss({
+			fileName: '_svg',
+			fileExt: 'scss',
+			cssPrefix: '--svg__',
+			addSize: false
+		}))
+		.pipe(gulp.dest('src/scss'))
+		.pipe(
+			browserSync.reload({
+				stream: true,
+			})
+		)
+		.pipe(size());
+});
+
 // gulp.task("webp", function () {
 // 	return gulp
 // 		.src("src/images/**/*.+(png|jpg|jpeg|gif|svg|ico|webp)")
@@ -292,6 +341,10 @@ gulp.task("jSon", function () {
 	return gulp
 		.src("src/js/json/**/*.*")
 		.pipe(size())
+		.pipe(ver(/templateUrl:["']{1}([\w./-]*)["']{1}/g, {
+			base: "./",
+			Hash: "md5"
+		}))
 		.pipe(gulp.dest("build/js/json/"))
 		.pipe(
 			browserSync.reload({
@@ -315,6 +368,10 @@ gulp.task("php", function () {
 				basepath: "@file",
 			}),
 		)
+		.pipe(ver(/templateUrl:["']{1}([\w./-]*)["']{1}/g, {
+			base: "./",
+			Hash: "md5"
+		}))
 		.pipe(gulp.dest("build/"))
 		.pipe(
 			browserSync.reload({
@@ -337,25 +394,7 @@ gulp.task("watch", function () {
 	gulp.watch("src/images/**/*.*", gulp.parallel("images"));
 	gulp.watch("src/js/json/**/*.*", gulp.parallel("jSon"));
 	gulp.watch("src/**/*.php", gulp.parallel("php"));
-});
-
-gulp.task("deploy", function () {
-	//грузим файлы на хостинг по FTP
-	return gulp.src("build/**").pipe(
-		rsync({
-			root: "build/", //откуда берём файлы
-			hostname: "yourLogin@yourIp", //ваш логин на хостинге@IPхостинга
-			destination: "sitePath", //папка, в которую будем загружать
-			//port: 25212, //порт, к которому пойдёт подключение. Нужна, если нестандартный порт
-			include: ["*.htaccess"], //файлы, которые нужно включить в передачу
-			exclude: ["**/Thumbs.db", "**/*.DS_Store"], //файлы, которые нужно исключить из передачи
-			recursive: true, //передавать все файлы и папки рекурсивно
-			archive: true, //режим архива
-			silent: false, //отключим ведение журнала
-			compress: true, //включим сжатие
-			progress: true, //выведем прогресс передачи в консоль
-		}),
-	);
+	gulp.watch("src/images/svg/**/*.svg", gulp.parallel("svg"));
 });
 
 gulp.task("browser-sync", function () {
@@ -368,8 +407,16 @@ gulp.task("browser-sync", function () {
 	// });
 
 	browserSync.init({
-		proxy: "r-olio",
-		notify: true
+		watch: true,
+		proxy: {
+			target: "r-olio.local"
+		},
+		logLevel: "info",
+		logPrefix: "R-olio browserSync",
+		logConnections: true,
+		logFileChanges: true,
+		open: false,
+		timestamps: true
 	})
 });
 
@@ -388,6 +435,7 @@ gulp.task(
 		"font-eot",
 		"font-woff2",
 		"images",
-		"php"
+		"php",
+		"svg"
 	),
 ); //запускает все перечисленные задачи разом

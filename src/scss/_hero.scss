@@ -1,0 +1,55 @@
+.hero {
+	&__inner {
+		position: relative;
+	}
+
+	&__top {
+		position: absolute;
+		top: 0;
+		right: 0;
+		z-index: 21;
+	}
+
+	&__slider {
+		width: 100%;
+	}
+
+	&__slide {
+		width: 100%;
+		min-height: 44.5rem
+			/* 712/16 */
+		;
+		justify-content: center;
+		align-items: stretch;
+	}
+
+	&__slide-image {
+		height: 44.5rem;
+		flex: 0 0 40%;
+	}
+
+	&__slide-text {
+		flex: 0 0 60%;
+		flex-direction: column;
+		justify-content: flex-end;
+		align-items: flex-start;
+	}
+
+	&__slide-title {
+		color: $color-text;
+		font-size: 4rem
+			/* 64/16 */
+		;
+		line-height: 5rem
+			/* 80/16 */
+		;
+	}
+
+	&__slide-descr {
+		margin-top: 2rem;
+		font-size: 1.125rem
+			/* 18/16 */
+		;
+		font-weight: 300;
+	}
+}

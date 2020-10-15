@@ -1,0 +1,97 @@
+.header {
+	width: 100%;
+	position: relative;
+
+	&::before {
+		content: '';
+		position: absolute;
+		height: 19rem
+			/* 304/16 */
+		;
+		width: 19rem
+			/* 304/16 */
+		;
+		top: -3rem;
+		left: calc((100vw - 101rem) / 2);
+		background-color: $main-salat;
+		border-radius: 50%;
+		z-index: 0;
+		transform: translateX(-25%);
+	}
+
+	&__inner {
+		justify-content: space-between;
+		align-items: center;
+		height: 16.25rem
+			/* 260/16 */
+		;
+	}
+
+	&__logo {
+		position: relative;
+		font-size: 0;
+		z-index: 1;
+		display: block;
+		height: 9.5rem
+			/* 152/16 */
+		;
+		width: 4.75rem
+			/* 76/16 */
+		;
+
+	}
+
+	&__logo-image {
+		height: 50%;
+		width: 50%;
+		display: block;
+		@include bg;
+	}
+
+	&__cart {
+		font-size: 0;
+		display: block;
+		background-color: transparent;
+		border: none;
+		padding: 0;
+		margin: 0;
+		height: 2.25rem
+			/* 36/16 */
+		;
+		width: 2.5rem;
+		cursor: pointer;
+		position: relative;
+
+		&:hover {
+			transform: scale(1.05);
+		}
+
+		&:active {
+			transform: scale(0.95);
+		}
+	}
+
+	&__cart-icon {
+		@include bg;
+		display: block;
+		height: 100%;
+		width: 100%;
+	}
+
+	&__cart-counter {
+		position: absolute;
+		border-radius: 100%;
+		padding-left: 0.25rem;
+		padding-right: 0.25rem;
+		background-color: $main-meet;
+		font-size: 1rem;
+		right: 0;
+		top: 0;
+		color: #ffffff;
+		justify-content: center;
+		align-items: center;
+		transform: translate(50%, -50%);
+		opacity: 0;
+		pointer-events: none;
+	}
+}

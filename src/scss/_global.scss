@@ -1,5 +1,6 @@
 html {
 	box-sizing: border-box;
+	font-size: 16px;
 }
 
 *,
@@ -12,6 +13,11 @@ html,
 body {
 	height: 100%;
 	position: relative;
+}
+
+body {
+	font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 1rem;
 }
 
 ul,
@@ -28,8 +34,22 @@ h6 {
 	padding: 0;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: 'Amatic SC', Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
 a {
 	text-decoration: none;
+	@include tr;
+}
+
+button {
+	@include tr;
 }
 
 button:focus,
@@ -41,4 +61,15 @@ input:focus {
 	display: flex;
 	justify-content: flex-start;
 	align-items: flex-start;
+}
+
+.container {
+	width: 100%;
+	max-width: 101rem
+		/* 1616/16 */
+	;
+	padding: 0 2rem
+		/* 32/16 */
+	;
+	margin: 0 auto;
 }

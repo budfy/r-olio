@@ -1,6 +1,36 @@
 .nav {
-	&__list{
+	&__list {
 		list-style: none;
 		justify-content: space-between;
+	}
+
+	&__item {
+		padding: 1rem;
+		margin: 0 0.5rem;
+	}
+
+	&__link {
+		font-family: 'El Messiri', Cambria, Cochin, Georgia, Times, serif;
+		font-weight: 700;
+		color: $main-salat;
+
+		&:visited {
+			color: $main-salat;
+		}
+
+		&:hover {
+			text-decoration: underline;
+		}
+
+		&:focus {
+			outline: transparent;
+			color: $main-italic;
+			text-decoration: underline;
+		}
+
+		&:active {
+			color: $main-east;
+		}
+
 	}
 }

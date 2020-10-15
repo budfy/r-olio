@@ -1,5 +1,17 @@
 let oil;
 
+function round(selector) {
+	let elArr = document.querySelectorAll(selector);
+	// console.log("elArr: " + elArr,
+	// 	"selector: " + selector);
+	elArr.forEach(el => {
+		el.style.height = `${el.offsetWidth}px`;
+	});
+}
+window.onload = function () {
+	round('.js-round');
+}
+
 function getProducts() {
 	oil = prodData.oil;
 	i = 0;
@@ -14,17 +26,17 @@ function getProducts() {
 };
 
 function createHtmlItem(elem, elemName) {
-	document.querySelector(".--js-insert-here").insertAdjacentHTML("beforeend",
-		`<div class="item --${elemName} flex">
-		<h2 class="item__title">${elem.name}</h2>
-		<p class="item__descr">${elem.descr}</p>
-		<p class="item__ingr"><strong>Состав:</strong>${elem.ingr}</p>
-		<img class="item__picture" src="images/${elem.picture}" alt="Масло '${elem.name}">
-		<p class="item__price">Цена:<strong>${elem.price}грн.</strong></p>
-		<p class="item__summ">Сумма: <strong>0</strong><b> грн.</b></p>
-		<button class="item__btn item__remove-btn" type="button" data-product="${elemName}" id="${elemName}Minus">-</button>
-		<button class="item__btn item__add-btn" type="button" data-product="${elemName}" id="${elemName}Plus">+</button>
-		</div>`);
+	// document.querySelector(".--js-insert-here").insertAdjacentHTML("beforeend",
+	// 	`<div class="item --${elemName} flex">
+	// 	<h2 class="item__title">${elem.name}</h2>
+	// 	<p class="item__descr">${elem.descr}</p>
+	// 	<p class="item__ingr"><strong>Состав:</strong>${elem.ingr}</p>
+	// 	<img class="item__picture" src="images/${elem.picture}" alt="Масло '${elem.name}">
+	// 	<p class="item__price">Цена:<strong>${elem.price}грн.</strong></p>
+	// 	<p class="item__summ">Сумма: <strong>0</strong><b> грн.</b></p>
+	// 	<button class="item__btn item__remove-btn" type="button" data-product="${elemName}" id="${elemName}Minus">-</button>
+	// 	<button class="item__btn item__add-btn" type="button" data-product="${elemName}" id="${elemName}Plus">+</button>
+	// 	</div>`);
 };
 
 let prodData = new Promise(
@@ -62,17 +74,17 @@ class CartItem {
 };
 
 
-const order = {
+let order = {
 	orderItems: {},
 	getSumm: function () {
-		// let summ = 0;
+		let summ = 0;
 		// for (const itemSumm of this.orderItems[itemSumm]) {
 		// 	summ += itemSumm;
 		// }
-		// return summ;
-		console.log(this);
+		// console.log(this.getSumm);
+		return summ;
 	},
-	orderSumm: order.getSumm(),
+	// orderSumm: order.getSumm(),
 	// orderAddress: getAddress(),
 	// orderName: getName()
 }
@@ -99,7 +111,6 @@ $plus.forEach.call($plus, function (el) {
 		console.table(order.orderItems)
 	});
 });
-//!FIXME
 
 $minus.forEach.call($minus, function (el) {
 	el.addEventListener("click", function (event) {
@@ -116,5 +127,34 @@ $minus.forEach.call($minus, function (el) {
 		console.table(order.orderItems)
 	});
 });
+//!FIXME
 
 // const sendOrder = new XMLHttpRequest();
+
+const hero_slider = new Swiper('.swiper-container.js-hero-swiper', {
+	slidesPerView: 1,
+	slidesPerColumn: 1,
+	spaceBetween: 0,
+	loop: false,
+	mode: 'horizontal',
+	freeMode: false,
+	autoHeight: true,
+	calculateHeight: true,
+	slideToClickedSlide: true,
+	slidesPerGroup: 1,
+	navigation: {
+		nextEl: '.js-hero-swiper .swiper-button-next',
+		prevEl: '.js-hero-swiper .swiper-button-prev',
+	},
+	autoplay: {
+		delay: 5000,
+	}
+});
+
+let slide_id;
+document.querySelectorAll('.js-slideTo-link').forEach(el => {
+	el.addEventListener('click', function () {
+		slide_id = this.dataset.slide;
+		hero_slider.slideTo(slide_id);
+	})
+});
