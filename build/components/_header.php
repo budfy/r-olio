@@ -1,7 +1,9 @@
 <header class="header">
 	<div class="container">
 		<div class="header__inner flex">
-			<a href="#top" class="header__logo --svg__logo-white">Подняться вверх
+			<div class="header__round"></div>
+			<a href="#top" class="header__logo flex">Подняться вверх
+				<i class="header__logo-image --svg__logo-white"></i>
 			</a>
 			<nav class="header__nav nav">
 				<ul class="nav__list flex">

@@ -1,17 +1,64 @@
 .hero {
+
 	&__inner {
 		position: relative;
+		min-height: 100vh;
 	}
 
 	&__top {
 		position: absolute;
-		top: 0;
-		right: 0;
+		top: 3rem
+			/* 48/16 */
+		;
+		right: 7rem;
 		z-index: 21;
+	}
+
+	&__title {
+		color: $main-salat;
+		font-size: 2.25rem
+			/* 36/16 */
+		;
+	}
+
+	&__pagination {
+		margin-top: 2rem;
+	}
+
+	&__pagination-link {
+		border: 1px solid $white-green;
+		border-radius: 0;
+		background-color: transparent;
+		color: $white-green;
+		padding: 0.5rem 1rem;
+		font-size: 1.125rem
+			/* 18/16 */
+		;
+
+
+		&:hover {
+			background-color: $white-green;
+			color: #546b06;
+		}
+
+		&:focus {
+			outline-color: $main-green;
+		}
+
+		&:active {
+			transform: scale(0.95);
+		}
+
+		&+& {
+			margin-left: 2.5rem
+				/* 40/16 */
+			;
+		}
 	}
 
 	&__slider {
 		width: 100%;
+		height: 100%;
 	}
 
 	&__slide {
@@ -19,13 +66,78 @@
 		min-height: 44.5rem
 			/* 712/16 */
 		;
+		height: 100%;
 		justify-content: center;
-		align-items: stretch;
+		align-items: center;
+		min-height: 100vh;
 	}
 
 	&__slide-image {
-		height: 44.5rem;
+		// height: 100%;
 		flex: 0 0 40%;
+		position: relative;
+		align-items: center;
+		justify-content: center;
+	}
+
+	&__image-wrapper {
+		width: 30rem;
+		height: 30rem;
+		max-height: 30rem;
+		border-radius: 50%;
+		align-items: flex-end;
+		justify-content: center;
+		position: relative;
+		z-index: 1;
+
+		&::before {
+			content: '';
+			position: absolute;
+			height: 120%;
+			width: 120%;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			background: inherit;
+			border-radius: 50%;
+			z-index: 0;
+			opacity: 0.2;
+		}
+
+		&.--salat {
+			background: $gradient-salat;
+		}
+
+		&.--italian {
+			background: $gradient-italian;
+		}
+
+		&.--meet {
+			background: $gradient-meet;
+		}
+
+		&.--east {
+			background: $gradient-east;
+		}
+	}
+
+	&__image-pic {
+		position: relative;
+		z-index: 1;
+		height: 160%;
+		transform: rotate(10deg);
+		transform-origin: center center;
+		bottom: -15%;
+	}
+
+	&__image-pic.--min {
+		position: absolute;
+		z-index: 0;
+		right: 0;
+		object-fit: contain;
+		height: 15rem;
+		width: 15rem;
+		transform: none;
 	}
 
 	&__slide-text {
@@ -33,6 +145,10 @@
 		flex-direction: column;
 		justify-content: flex-end;
 		align-items: flex-start;
+		padding-left: 2rem;
+		max-width: 37.5rem
+			/* 600/16 */
+		;
 	}
 
 	&__slide-title {
@@ -51,5 +167,22 @@
 			/* 18/16 */
 		;
 		font-weight: 300;
+		line-height: 1.5rem
+			/* 24/16 */
+		;
+	}
+
+	&__slide-counter {
+		margin-top: 2rem;
+	}
+
+	&__btn-wrap {
+		margin-top: 2rem;
+	}
+
+	&__btn-item {
+		&+& {
+			margin-left: 1.5rem;
+		}
 	}
 }

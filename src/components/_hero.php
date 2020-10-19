@@ -17,16 +17,16 @@
 				<div class="swiper-button-prev"></div>
 				<div class="swiper-wrapper">
 					<div class="swiper-slide">
-						<?php include 'components/_hero-slide.php' ?>
+						<?php include 'components/hero/_hero-slide-0.php' ?>
 					</div>
 					<div class="swiper-slide">
-						<?php include 'components/_hero-slide.php' ?>
+						<?php include 'components/hero/_hero-slide-1.php' ?>
 					</div>
 					<div class="swiper-slide">
-						<?php include 'components/_hero-slide.php' ?>
+						<?php include 'components/hero/_hero-slide-2.php' ?>
 					</div>
 					<div class="swiper-slide">
-						<?php include 'components/_hero-slide.php' ?>
+						<?php include 'components/hero/_hero-slide-3.php' ?>
 					</div>
 				</div>
 				<div class="swiper-button-next"></div>

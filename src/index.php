@@ -5,11 +5,17 @@
 <body>
 	<?php include 'components/_header.php' ?>
 	<!-- WRITE CODE HERE -->
-	<main>
-		<?php include 'components/_hero.php' ?>
-		<div class="grid-wrapper --js-insert-here">
+	<main class="main">
 
-		</div>
+		<?php
+		include_once 'components/_hero.php';
+		include_once 'components/_products.php';
+		include_once 'components/_about.php';
+		include_once 'components/_testimonials.php';
+		include_once 'components/_delivery.php';
+		include_once 'components/_contact.php';
+				?>
+
 	</main>
 	<!-- STOP WRITE CODE -->
 	<?php include 'components/_footer.php';

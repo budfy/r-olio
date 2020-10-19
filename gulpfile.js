@@ -270,11 +270,15 @@ gulp.task("images", function () {
 				[
 					recompress({
 						//Настройки сжатия изображений. Сейчас всё настроено так, что сжатие почти незаметно для глаза на обычных экранах. Можете покрутить настройки, но за результат не отвечаю.
-						loops: 4, //количество прогонок изображения
-						min: 80, //минимальное качество в процентах
+						loops: 2, //количество прогонок изображения
+						min: 90, //минимальное качество в процентах
 						max: 100, //максимальное качество в процентах
 						quality: "high", //тут всё говорит само за себя, если хоть капельку понимаешь английский
-						use: [pngquant()],
+						use: [pngquant({
+							quality: [0.7, 0.9],
+							strip: true,
+							speed: 1
+						})],
 					}),
 					imagemin.gifsicle(), //тут и ниже всякие плагины для обработки разных типов изображений
 					imagemin.optipng(),
@@ -402,15 +406,13 @@ gulp.task("browser-sync", function () {
 	// 	server: {
 	// 		baseDir: "build/",
 	// 	},
-	// 	browser: [""],
 	// 	host: "192.168.0.104",
 	// });
 
 	browserSync.init({
+		browser: ["chrome"],
 		watch: true,
-		proxy: {
-			target: "r-olio.local"
-		},
+		proxy: "r-olio.local",
 		logLevel: "info",
 		logPrefix: "R-olio browserSync",
 		logConnections: true,

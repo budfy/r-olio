@@ -1,0 +1,55 @@
+.main-btn {
+	border-width: 1px;
+	border-style: solid;
+	font-size: 1rem;
+	padding: 0.5rem 1.5rem;
+	border-radius: 2rem;
+	background-color: #fff;
+
+	@include tr;
+
+	&.--salat {
+		border-color: $main-salat;
+		color: $main-salat;
+	}
+
+	&.--italian {
+		border-color: $main-italian;
+		color: $main-italian;
+	}
+
+	&.--meet {
+		border-color: $main-meet;
+		color: $main-meet;
+	}
+
+	&.--east {
+		border-color: $main-east;
+		color: $main-east;
+	}
+
+	&:hover {
+		color: #fff;
+		border-color: transparent;
+
+		&.--salat {
+			background: $gradient-salat;
+		}
+
+		&.--italian {
+			background: $gradient-italian;
+		}
+
+		&.--meet {
+			background: $gradient-meet;
+		}
+
+		&.--east {
+			background: $gradient-east;
+		}
+	}
+
+	&:active {
+		transform: scale(0.95);
+	}
+}

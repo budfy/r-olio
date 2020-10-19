@@ -50,6 +50,7 @@ a {
 
 button {
 	@include tr;
+	cursor: pointer;
 }
 
 button:focus,

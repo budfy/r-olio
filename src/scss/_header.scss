@@ -1,51 +1,71 @@
 .header {
 	width: 100%;
-	position: relative;
-
-	&::before {
-		content: '';
-		position: absolute;
-		height: 19rem
-			/* 304/16 */
-		;
-		width: 19rem
-			/* 304/16 */
-		;
-		top: -3rem;
-		left: calc((100vw - 101rem) / 2);
-		background-color: $main-salat;
-		border-radius: 50%;
-		z-index: 0;
-		transform: translateX(-25%);
-	}
+	position: sticky;
+	top: 0;
+	left: 0;
+	transition: all 0.5s;
+	overflow: hidden;
 
 	&__inner {
+		position: relative;
+		z-index: 1;
 		justify-content: space-between;
 		align-items: center;
 		height: 16.25rem
 			/* 260/16 */
 		;
+		transition: all 0.5s;
+	}
+
+	&__round {
+		height: 19rem;
+		width: 19rem;
+		top: -3rem;
+		background-color: $main-salat;
+		border-radius: 50%;
+		z-index: 0;
+		position: absolute;
+		transform: translateX(calc(-50% + 2.5rem));
+		transition: all 0.5s;
 	}
 
 	&__logo {
 		position: relative;
 		font-size: 0;
 		z-index: 1;
-		display: block;
-		height: 9.5rem
-			/* 152/16 */
-		;
+		height: 100%;
 		width: 4.75rem
 			/* 76/16 */
 		;
-
+		align-items: center;
+		transition: all 0.5s;
 	}
 
 	&__logo-image {
-		height: 50%;
-		width: 50%;
+		position: relative;
 		display: block;
 		@include bg;
+		z-index: 1;
+		height: 10rem;
+		flex-basis: 100%;
+		transition: all 0.5s;
+	}
+
+	&__logo:hover {
+		.header__logo-image {
+			transform: rotate(3deg);
+		}
+	}
+
+	&__logo:active {
+		.header__logo-image {
+			transform: rotate(3deg) scale(0.95);
+		}
+	}
+
+	&__nav {
+		position: relative;
+		z-index: 2;
 	}
 
 	&__cart {
@@ -59,7 +79,7 @@
 			/* 36/16 */
 		;
 		width: 2.5rem;
-		cursor: pointer;
+		
 		position: relative;
 
 		&:hover {
@@ -93,5 +113,41 @@
 		transform: translate(50%, -50%);
 		opacity: 0;
 		pointer-events: none;
+	}
+
+	&.scrolled {
+		height: auto;
+		z-index: 1000;
+		box-shadow: $shadow;
+
+		.header__inner {
+			height: auto;
+		}
+
+		.header__round {
+			height: 100%;
+			width: 200vw;
+			top: 0;
+			left: 0;
+			border-radius: 0;
+			transform: translateX(-25%);
+			background-color: #7da00cde;
+		}
+
+		.header__logo {
+			padding: 1rem 0;
+		}
+
+		.header__logo-image {
+			height: 5rem;
+		}
+
+		.nav__link {
+			color: #ffffff;
+		}
+
+		.header__cart-icon {
+			@include whiteCart;
+		}
 	}
 }

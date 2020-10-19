@@ -6,11 +6,23 @@ function round(selector) {
 	// 	"selector: " + selector);
 	elArr.forEach(el => {
 		el.style.height = `${el.offsetWidth}px`;
+		el.style.maxHeight = `${el.offsetWidth}px`;
 	});
 }
 window.onload = function () {
 	round('.js-round');
 }
+
+window.addEventListener('scroll', function () {
+	let
+		$header = document.querySelector('.header'),
+		top = pageYOffset;
+	if (top > 0) {
+		$header.classList.add('scrolled');
+	} else {
+		$header.classList.remove('scrolled');
+	}
+})
 
 function getProducts() {
 	oil = prodData.oil;
@@ -146,9 +158,9 @@ const hero_slider = new Swiper('.swiper-container.js-hero-swiper', {
 		nextEl: '.js-hero-swiper .swiper-button-next',
 		prevEl: '.js-hero-swiper .swiper-button-prev',
 	},
-	autoplay: {
-		delay: 5000,
-	}
+	// autoplay: {
+	// 	delay: 5000,
+	// }
 });
 
 let slide_id;
